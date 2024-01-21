@@ -1,0 +1,10 @@
+{
+  "name": "rizal-mart-server",
+  "version": "1.0.0",
+  "description": "Backend of Rizal Mart",
+  "main": "index.js",
+  "repository": "git@github.com-personal:manishsharma0398/rizal-mart-server-ts.git",
+  "author": "Manish Sharma",
+  "license": "MIT",
+  "private": true
+}
