@@ -13,12 +13,12 @@ const app = express();
 // middlewares
 app.use(express.json());
 
-app.use('/api/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 // routes
-app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes);
 
-app.get('/api/health', (req, res) => {
+app.get('/health', (req, res) => {
   return res.json({ msg: 'Server running successfully' });
 });
 
