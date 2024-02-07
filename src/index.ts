@@ -1,8 +1,12 @@
+import 'dotenv/config';
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 
 // swagger
 import swaggerFile from '../swagger-output.json';
+
+// utils
+import { PORT, serverMessage } from './utils/constants';
 
 // routes
 import authRoutes from '@routes/auth';
@@ -19,9 +23,9 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 app.use('/auth', authRoutes);
 
 app.get('/health', (req, res) => {
-  return res.json({ msg: 'Server running successfully' });
+  return res.json({ msg: serverMessage });
 });
 
-app.listen(3000, () => {
-  console.log('Server running on 3000');
+app.listen(PORT, () => {
+  console.log(serverMessage);
 });
