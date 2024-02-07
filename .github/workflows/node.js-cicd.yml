@@ -1,0 +1,40 @@
+name: Node.js Pipeline
+run-name: Node.js CI ${{ github.event_name == 'push' && contains(github.event.ref, 'master') && 'production' || 'staging' }}
+
+on:
+  push:
+    branches:
+      - master
+      - develop
+
+jobs:
+  build:
+    runs-on: self-hosted
+    environment:
+      name: ${{ github.event_name == 'push' && contains(github.event.ref, 'master') && 'production' || 'staging' }}
+
+    strategy:
+      matrix:
+        node-version: [20.x]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'yarn'
+
+      - name: 'git'
+        run: |
+          git checkout ${{ github.event.ref }}
+          git pull origin ${{ github.event.ref }}
+
+      - name: 'Create env file'
+        run: echo "${{ secrets.ENV_FILE }}" > .env
+
+      - name: 'Clean install'
+        run: yarn install --frozen-lockfile
+
+      - name: 'Restart server'
+        run: pm2 restart ${{ github.event_name == 'push' && contains(github.event.ref, 'master') && 'production' || 'staging' }}-server
