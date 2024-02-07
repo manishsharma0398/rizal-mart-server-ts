@@ -22,6 +22,10 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 // routes
 app.use('/auth', authRoutes);
 
+app.get('/', (req, res) => {
+  return res.json({ msg: 'Home route' });
+});
+
 app.get('/health', (req, res) => {
   return res.json({ msg: serverMessage });
 });
