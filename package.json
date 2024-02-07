@@ -12,8 +12,7 @@
     "build": "npx tsc && tsc-alias",
     "start": "node dist/src",
     "dev": "nodemon",
-    "pretify": "prettier --write --ignore-unknown",
-    "swagger": "node ./swagger.js"
+    "pretify": "prettier --write --ignore-unknown"
   },
   "devDependencies": {
     "@types/express": "^4.17.21",

@@ -9,7 +9,7 @@ import swaggerFile from '../swagger-output.json';
 import { PORT, serverMessage } from './utils/constants';
 
 // routes
-import authRoutes from '@routes/auth';
+import authRoutes from '@routes/auth.routes';
 
 // initialize express
 const app = express();
