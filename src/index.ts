@@ -9,7 +9,7 @@ import swaggerFile from '../swagger-output.json';
 import { PORT, serverMessage } from './utils/constants';
 
 // routes
-import authRoutes from '@routes/auth';
+import authRoutes from '@routes/auth.routes';
 
 // initialize express
 const app = express();
@@ -21,6 +21,10 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 // routes
 app.use('/auth', authRoutes);
+
+app.get('/', (req, res) => {
+  return res.json({ msg: 'Home route' });
+});
 
 app.get('/health', (req, res) => {
   return res.json({ msg: serverMessage });
