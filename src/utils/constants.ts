@@ -1,4 +1,8 @@
-export const PORT = process.env.PORT;
-export const ENVIRONMENT = process.env.ENVIRONMENT;
+export const PORT: number = parseInt(process.env.PORT!);
 
-export const serverMessage: string = `${ENVIRONMENT === 'prd' ? 'Production' : 'Staging'} Server running on PORT:${PORT}`;
+const ENVIRONMENT: { [index: number]: string } = {
+  8000: 'Production',
+  8001: 'Staging',
+};
+
+export const serverMessage: string = `${ENVIRONMENT[PORT]} server running on PORT:${PORT}`;
