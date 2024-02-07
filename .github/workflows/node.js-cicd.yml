@@ -36,5 +36,8 @@ jobs:
       - name: 'Clean install'
         run: yarn install --frozen-lockfile
 
+      - name: 'Build'
+        run: yarn build
+
       - name: 'Restart server'
         run: pm2 restart ${{ github.event_name == 'push' && contains(github.event.ref, 'master') && 'production' || 'staging' }}-server
