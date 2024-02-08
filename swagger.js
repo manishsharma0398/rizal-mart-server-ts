@@ -5,7 +5,7 @@ const doc = {
     title: 'Rizal Mart',
     description: 'Description',
   },
-  host: 'localhost:3000',
+  host: 'http://ec2-3-111-236-237.ap-south-1.compute.amazonaws.com/api/staging',
 };
 
 const outputFile = './swagger-output.json';
