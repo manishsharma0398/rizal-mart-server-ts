@@ -1,15 +1,18 @@
-import 'dotenv/config';
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 
 // swagger
 import swaggerFile from '../swagger-output.json';
 
-// utils
+// utils / configs
+import { connectToDB } from './configs/dbConnect';
 import { PORT, serverMessage } from './utils/constants';
 
 // routes
 import authRoutes from '@routes/auth.routes';
+
+import 'dotenv/config';
+connectToDB();
 
 // initialize express
 const app = express();

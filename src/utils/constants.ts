@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 export const PORT: number = parseInt(process.env.PORT!);
 
 const ENVIRONMENT: { [index: number]: string } = {
