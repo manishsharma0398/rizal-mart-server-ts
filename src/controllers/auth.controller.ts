@@ -3,6 +3,7 @@ import { loginBody, registerUserBody } from '@interfaces/index';
 
 import User from '@src/models/User';
 import { generateToken } from '@src/utils/jwt';
+import { sendEmail } from '@src/utils/mailer';
 
 export const registerUser = async (req: Request, res: Response) => {
   const {
@@ -26,6 +27,8 @@ export const registerUser = async (req: Request, res: Response) => {
   const { confirmPassword, ...rest } = req.body;
 
   const data = await User.create(rest);
+
+  await sendEmail(email);
 
   return res
     .status(201)
