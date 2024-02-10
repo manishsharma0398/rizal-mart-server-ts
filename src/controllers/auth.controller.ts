@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { loginBody, registerUserBody } from '@interfaces/index';
+
 import User from '@src/models/User';
 
 export const registerUser = async (req: Request, res: Response) => {
@@ -30,7 +31,18 @@ export const registerUser = async (req: Request, res: Response) => {
     .json({ message: 'User created successfully', data, success: true });
 };
 
-export const loginUser = (req: Request, res: Response) => {
+export const loginUser = async (req: Request, res: Response) => {
   const { email, password }: loginBody = req.body;
+
+  const user = await User.findOne({ email });
+
+  if (!user)
+    return res.status(400).json({ message: 'User not found', success: false });
+
+  if (!(await user.didPasswordMatched(password)))
+    return res
+      .status(400)
+      .json({ message: 'Password Incorrect', success: false });
+
   return res.json({ email, password });
 };

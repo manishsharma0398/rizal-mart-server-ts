@@ -1,6 +1,9 @@
 import 'dotenv/config';
 
 export const PORT: number = parseInt(process.env.PORT!);
+export const BCRYPT_SALT_ROUNDS = process.env
+  .BCRYPT_SALT_ROUNDS! as unknown as number;
+export const MONGO_URL = process.env.MONGO_URL!;
 
 const ENVIRONMENT: { [index: number]: string } = {
   8000: 'Production',

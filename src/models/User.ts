@@ -1,24 +1,10 @@
-import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
+import mongoose from 'mongoose';
 
-enum UserRole {
-  User = 'user',
-  Vendor = 'vendor',
-  Admin = 'admin',
-}
+import { BCRYPT_SALT_ROUNDS } from '@src/utils/constants';
+import { UserDocument, UserRole } from '@src/utils/interfaces';
 
-interface IUser {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
-  role: string;
-  blocked: boolean;
-}
-
-const userSchema = mongoose.Schema;
-
-const User = new userSchema<IUser>(
+const User = new mongoose.Schema<UserDocument>(
   {
     firstName: {
       type: String,
@@ -50,10 +36,20 @@ const User = new userSchema<IUser>(
   { timestamps: true }
 );
 
-User.pre('save', function async() {
-  const salt = bcrypt.genSaltSync(Number(process.env.BCRYPT_SALT_ROUNDS));
+User.pre('save', function async(this: UserDocument, next) {
+  if (!this.isModified('password')) return next();
+
+  const salt = bcrypt.genSaltSync(BCRYPT_SALT_ROUNDS);
   const hash = bcrypt.hashSync(this.password, salt);
   this.password = hash;
+  return next();
 });
 
-export default mongoose.model<IUser>('User', User);
+User.methods.didPasswordMatched = async function (
+  password: string
+): Promise<boolean> {
+  const user = this as UserDocument;
+  return await bcrypt.compare(password, user.password);
+};
+
+export default mongoose.model<UserDocument>('User', User);

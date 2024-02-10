@@ -1,9 +1,11 @@
 import mongoose from 'mongoose';
 
+import { MONGO_URL } from '@src/utils/constants';
+
 export const connectToDB = async () => {
   try {
     mongoose.set('strictQuery', false);
-    await mongoose.connect(process.env.MONGO_URL!);
+    await mongoose.connect(MONGO_URL);
   } catch (error) {
     throw new Error(error as string);
   }
