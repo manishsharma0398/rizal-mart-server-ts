@@ -3,7 +3,7 @@ import { loginBody, registerUserBody } from '@interfaces/index';
 
 import User from '@src/models/User';
 import { generateToken } from '@src/utils/jwt';
-import { sendEmail } from '@src/utils/mailer';
+import sendRegistrationEmail from '@src/utils/mails/registration';
 
 export const registerUser = async (req: Request, res: Response) => {
   const {
@@ -28,7 +28,10 @@ export const registerUser = async (req: Request, res: Response) => {
 
   const data = await User.create(rest);
 
-  await sendEmail(email);
+  const userName = data.firstName + ' ' + data.lastName;
+
+  // TODO: implement queue for sending emails like Bull
+  sendRegistrationEmail(userName, [email]);
 
   return res
     .status(201)
