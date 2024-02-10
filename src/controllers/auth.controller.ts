@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { loginBody, registerUserBody } from '@interfaces/index';
 
 import User from '@src/models/User';
+import { generateToken } from '@src/utils/jwt';
 
 export const registerUser = async (req: Request, res: Response) => {
   const {
@@ -37,12 +38,24 @@ export const loginUser = async (req: Request, res: Response) => {
   const user = await User.findOne({ email });
 
   if (!user)
-    return res.status(400).json({ message: 'User not found', success: false });
+    return res.status(404).json({ message: 'User not found', success: false });
 
   if (!(await user.didPasswordMatched(password)))
     return res
       .status(400)
       .json({ message: 'Password Incorrect', success: false });
 
-  return res.json({ email, password });
+  if (user.blocked) {
+    return res.status(400).json({ message: 'User is blocked', success: false });
+  }
+
+  const token = generateToken({
+    id: user._id,
+    email: user.email,
+    firstName: user.firstName,
+    lastName: user.lastName,
+    role: user.role,
+  });
+
+  return res.status(200).json({ data: token, success: true });
 };
