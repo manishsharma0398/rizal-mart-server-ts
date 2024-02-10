@@ -6,13 +6,14 @@
   "repository": "git@github.com-personal:manishsharma0398/rizal-mart-server-ts.git",
   "author": "Manish Sharma",
   "license": "MIT",
-  "private": true,
+  "private": false,
   "scripts": {
     "prebuild": "rm -rf ./dist",
     "build": "npx tsc && tsc-alias",
     "start": "node dist/src",
     "dev": "nodemon",
-    "pretify": "prettier --write --ignore-unknown"
+    "pretify": "prettier --write --ignore-unknown",
+    "preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('You must use Yarn to install, other package managers are not allowed')\""
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
@@ -37,5 +38,12 @@
     "mongoose": "^8.1.1",
     "nodemailer": "^6.9.9",
     "swagger-ui-express": "^5.0.0"
+  },
+  "engines": {
+    "node": ">=20.0.0",
+    "npm": "please-use-yarn",
+    "yarn": ">=1.22.19",
+    "pnpm": "please-use-yarn",
+    "bun": "please-use-yarn"
   }
 }
