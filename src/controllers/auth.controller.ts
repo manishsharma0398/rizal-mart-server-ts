@@ -3,14 +3,27 @@ import { loginBody, registerUserBody } from '@interfaces/index';
 import User from '@src/models/User';
 
 export const registerUser = async (req: Request, res: Response) => {
-  const { email, confirmPassword }: registerUserBody = req.body;
+  const {
+    email,
+    confirmPassword: password2,
+    password,
+  }: registerUserBody = req.body;
+
+  if (password !== password2)
+    return res
+      .status(400)
+      .json({ message: 'Passwords do not match', success: false });
 
   const userAlreadyRegistered = await User.findOne({ email });
 
   if (userAlreadyRegistered)
-    return res.json({ message: 'User already registered' });
+    return res
+      .status(400)
+      .json({ message: 'User already registered', success: false });
 
-  const data = await User.create(...confirmPassword, req.body);
+  const { confirmPassword, ...rest } = req.body;
+
+  const data = await User.create(rest);
 
   return res
     .status(201)
