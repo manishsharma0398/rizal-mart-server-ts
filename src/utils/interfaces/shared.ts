@@ -18,3 +18,27 @@ export interface UserDocument extends IUser, mongoose.Document {
   blocked: boolean;
   didPasswordMatched(password: string): Promise<boolean>;
 }
+
+interface IContactNumbers {
+  primary: string;
+  secondary?: string;
+}
+
+interface IAddress {
+  addressLine1: string;
+  addressLine2?: string;
+  city: string;
+  state: string;
+  postalCode: string;
+  country: string;
+}
+
+interface IVendor {
+  user: mongoose.Schema.Types.ObjectId;
+  tradingName: string;
+  contactNumbers: IContactNumbers;
+  address: IAddress;
+  verified: boolean;
+}
+
+export interface VendorDocument extends IVendor, mongoose.Document {}

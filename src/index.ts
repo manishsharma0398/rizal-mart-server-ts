@@ -10,6 +10,7 @@ import { PORT, serverMessage } from './utils/constants';
 
 // routes
 import authRoutes from '@routes/auth.routes';
+import vendorRoutes from '@routes/vendor.routes';
 
 import 'dotenv/config';
 connectToDB();
@@ -24,6 +25,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 // routes
 app.use('/auth', authRoutes);
+app.use('/vendor', vendorRoutes);
 
 app.get('/', (req, res) => {
   return res.json({ msg: 'Home route' });
